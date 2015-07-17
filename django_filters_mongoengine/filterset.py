@@ -61,12 +61,12 @@ def get_model_field(model, f):
     if len(parts) == 1:
         try:
             return model._lookup_field(f)[0]
-        except LookUpError:
+        except FieldDoesNotExist:
             return None
     for part in parts[:-1]:
         try:
             member = model._lookup_field(part)[0].lookup_member(parts[-1])
-        except LookUpError:
+        except FieldDoesNotExist:
             return None
         if isinstance(member, (EmbeddedDocumentField, ListField)):
             model = member
